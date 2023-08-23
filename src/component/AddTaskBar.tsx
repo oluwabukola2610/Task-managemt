@@ -2,7 +2,7 @@ import Avatar from "../assets/Avatar.svg";
 import FemaleAvatar from "../assets/female-avatar.png";
 const AddTaskBar = () => {
   return (
-    <div>
+    <>
       <h2 className="text-md text-gray-500 font-semibold p-4 border-b border-b-slate-300 shadow-sm">
         New Task
       </h2>
@@ -168,7 +168,7 @@ const AddTaskBar = () => {
         </div>
         <button className="btn btn-active bg-black text-white hover:bg-black/75 ">Add</button>
       </div>
-    </div>
+    </>
   );
 };
 
