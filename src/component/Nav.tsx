@@ -31,7 +31,7 @@ const Nav = () => {
             />
           </div>
         </div>
-        <div className="space-x-4 ">
+        <div className="space-x-4 items-center flex">
           <input type="checkbox" className="toggle toggle-sm" checked />
           <label className="swap swap-rotate">
             {/* this hidden checkbox controls the state */}
