@@ -40,7 +40,7 @@ const TaskRender = () => {
       >
         <AiOutlineClose
           onClick={() => settoggleAddTask(false)}
-          size={30}
+          size={20}
           className="absolute right-2 top-4"
         />
         <SideBar />
