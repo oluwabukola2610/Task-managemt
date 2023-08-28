@@ -2,8 +2,13 @@ import Avatar from "../assets/Avatar.svg";
 import FemaleAvatar from "../assets/female-avatar.png";
 import flower from "../assets/flower.png";
 import cocktail from "../assets/cocktail.png";
+import { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import HandleEdit from "../component/HandleEdit";
 
 const Task = () => {
+  const [toggleEdit, setToggleEdit] = useState<boolean>(false);
+
   return (
     <main className="flex flex-col  p-3 h-screen bg-[#F5F5F9] overflow-y-scroll">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
@@ -25,7 +30,10 @@ const Task = () => {
               />
             </svg>
           </head>
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#72E1281F] text-[#71DD37] w-fit p-2 rounded-full text-sm">
               UX
             </p>
@@ -85,7 +93,10 @@ const Task = () => {
             </span>
           </div>
           {/* ....... */}
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#FF4D491F] text-[#FF3E1D] w-fit p-2 uppercase rounded-full ">
               Code Review
             </p>
@@ -164,7 +175,10 @@ const Task = () => {
               />
             </svg>
           </head>
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#26C6F91F] text-[#03C3EC] w-fit p-2 rounded-full text-sm uppercase">
               Dashboard
             </p>
@@ -224,7 +238,10 @@ const Task = () => {
             </span>
           </div>
           {/* ....... */}
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#FF4D491F] text-[#FF3E1D] w-fit p-2 uppercase rounded-full text-sm">
               Image
             </p>
@@ -313,7 +330,10 @@ const Task = () => {
               />
             </svg>
           </head>
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#6D788D1F] text-[#8592A3] w-fit p-2 rounded-full text-sm ">
               APP
             </p>
@@ -378,7 +398,10 @@ const Task = () => {
             </span>
           </div>
           {/* ....... */}
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#666CFF1F] text-[#696CFF] w-fit p-2 uppercase rounded-full ">
               Charts & Map
             </p>
@@ -453,7 +476,7 @@ const Task = () => {
         {/* live */}
         <article className="flex flex-col space-y-4">
           <head className="flex p-1 justify-between">
-            <h1 className="leading-6 font-semibold">Done</h1>
+            <h1 className="leading-6 font-semibold">Live</h1>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -468,7 +491,10 @@ const Task = () => {
               />
             </svg>
           </head>
-          <div className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] ">
+          <div
+            onClick={() => setToggleEdit(!toggleEdit)}
+            className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] "
+          >
             <p className="bg-[#72E1281F] text-[#71DD37] w-fit p-2 text-sm rounded-full ">
               IOS APP
             </p>
@@ -533,6 +559,28 @@ const Task = () => {
 
           <p className="px-4"> + Add Item</p>
         </article>{" "}
+      </div>
+      {/* ADD EDIT overlay */}
+      {toggleEdit && (
+        <div
+          className="bg-black/60 w-full fixed top-0 left-0 z-10 h-screen"
+          onClick={() => setToggleEdit(false)}
+        ></div>
+      )}
+      {/* sidemenu */}
+      <div
+        className={
+          toggleEdit
+            ? "fixed h-screen w-full md:w-[300px]  top-0 right-0 bg-white z-10 duration-300"
+            : "hidden"
+        }
+      >
+        <AiOutlineClose
+          onClick={() => setToggleEdit(false)}
+          size={20}
+          className="absolute right-2 top-4"
+        />
+        <HandleEdit />{" "}
       </div>
     </main>
   );

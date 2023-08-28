@@ -11,7 +11,7 @@ const TaskRender = () => {
   // const [toggleFunds, setToggleFunds] = useState(false);
   const AddTask = () => {
     settoggleAddTask(!toggleAddTask);
-  };
+  }; 
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
