@@ -7,6 +7,14 @@ interface TaskAsideProps {
 
 const TaskAside: React.FC<TaskAsideProps> = ({ AddTask }) => {
   const location = useLocation();
+  // Retrieve user data from local storage
+  const storedUserData = JSON.parse(localStorage.getItem("Userinfo") || "null");
+
+  // Check if storedUserData is not null before accessing properties
+ const { email, firstName, lastName } = storedUserData || {};
+  const handleLogout = () => {
+    localStorage.removeItem("Userinfo");
+  };
   return (
     <div className="drawer-side bg-transparent">
       <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
@@ -141,9 +149,9 @@ const TaskAside: React.FC<TaskAsideProps> = ({ AddTask }) => {
               <span className="flex mx-4 font-medium">Users</span>
             </a>
 
-            <a
+            <Link to='/'
+              onClick={handleLogout}
               className="flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg "
-              href="#"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +169,7 @@ const TaskAside: React.FC<TaskAsideProps> = ({ AddTask }) => {
               </svg>
 
               <span className="flex mx-4 font-medium">Log Out</span>
-            </a>
+            </Link>
           </nav>
 
           <div className="space-y-4">
@@ -182,8 +190,10 @@ const TaskAside: React.FC<TaskAsideProps> = ({ AddTask }) => {
                 </div>
               </div>
               <span className="flex text-sm font-medium text-gray-700  flex-col items-start">
-                <p className="font-medium">Temitope Wiliams</p>{" "}
-                <p>temitopedml@gmail.com</p>
+                <p className="font-medium capitalize">
+                  {firstName} {lastName}{" "}
+                </p>
+                <p>{email}</p>
               </span>
             </div>
           </div>

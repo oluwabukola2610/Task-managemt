@@ -22,7 +22,7 @@ const Calender = () => {
       <Calendar
         value={date}
         tileClassName={tileClassName}
-        className=" border-none p-3 "
+        className=" border-none p-3 w-full"
       />
       <p className="text-center py-2 font-semibold text-gray-400">Date: {formattedDate}</p>
     </div>

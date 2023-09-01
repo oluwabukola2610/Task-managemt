@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Nav from "../component/Nav";
-import TaskAside from "../component/TaskAside";
+import TaskAside from "../component/SideBar";
 import Footer from "../component/Footer";
 import SideBar from "../component/AddTaskBar";
 import { useState } from "react";

@@ -25,13 +25,19 @@ const Taskdata: TaskData[] = [
   },
 ];
 const Dashboard = () => {
+  // Retrieve user data from local storage
+  const storedUserData = JSON.parse(localStorage.getItem("Userinfo") || "null");
+
+  // Check if storedUserData is not null before accessing properties
+  const firstName = storedUserData && storedUserData.firstName;
+
   return (
     <main className="mx-auto max-w-[1640px] flex flex-col gap-8 p-3 h-screen bg-[#F5F5F9] overflow-y-scroll">
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,370px] gap-4 ">
         <article className="flex flex-col space-y-7  ">
           <div className="flex flex-col md:flex-row items-center text-center md:text-start justify-between px-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white">
             <span className="space-y-2 pt-4">
-              <h1 className="font-bold text-2xl">Hello Temi 🎉</h1>
+              <h1 className="font-bold text-2xl">Hello {firstName} 🎉</h1>
               <p className="max-w-xs text-gray-500">
                 Get things done and start your day more productive
               </p>
