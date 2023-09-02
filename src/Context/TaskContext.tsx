@@ -33,10 +33,12 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         withCredentials: true,
       })
       .then((response) => {
-        //  Access cookies from the response headers
-        const cookies = response.headers;
-        console.log("Cookies received:", cookies);
-        console.log(response);
+        if (response.status === 200) {
+          //  Access cookies from the response headers
+          const cookies = response.headers["set-cookie"];
+          console.log("Cookies received:", cookies);
+          console.log(response);
+        }
         // Handle success
         setTasks({
           title: "",
