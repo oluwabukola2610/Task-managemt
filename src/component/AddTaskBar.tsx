@@ -57,7 +57,7 @@ const AddTaskBar = () => {
               htmlFor="Startdate"
               className="absolute -top-2 left-2 bg-white px-1 text-xs text-gray-400"
             >
-              Due Date
+              Start Date
             </label>
             <input
               type="date"

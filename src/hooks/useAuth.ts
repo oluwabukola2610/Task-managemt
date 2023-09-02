@@ -77,7 +77,9 @@ const useAuth = () => {
         if (response.status === 200) {
           toast.success(response.data.message);
           const userData = response.data.user;
+          const token = response.data.token;
           localStorage.setItem("Userinfo", JSON.stringify(userData));
+          localStorage.setItem("token", JSON.stringify(token));
           setTimeout(() => {
             navigate("/dashboard");
           }, 2000);
