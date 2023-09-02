@@ -9,5 +9,12 @@ export interface UserType {
   lastName?: string;
   email: string;
   password: string;
-  _id?:number
+  _id?: number;
+}
+export interface UserTask {
+  title: string;
+  startDate: string;
+  label: string; // Default label value
+  attachment: null; // You can use FormData for file uploads
+  comment: string;
 }
