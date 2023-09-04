@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import workmode from "../assets/Working-pana-removebg.png";
 import Calender from "../component/Calender";
 import TaskList from "../component/TaskList";
@@ -6,45 +6,25 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TaskProvider } from "../Context/TaskContext";
 
-interface TaskData {
-  taskLeft: number;
-  taskType: string;
-}
-const Taskdata: TaskData[] = [
-  {
-    taskLeft: 10,
-    taskType: "Total Task",
-  },
-  {
-    taskLeft: 8,
-    taskType: "Pending",
-  },
-  {
-    taskLeft: 6,
-    taskType: "In Progress",
-  },
-  {
-    taskLeft: 5,
-    taskType: " Completed",
-  },
-];
+
+
 const Dashboard = () => {
-  useEffect(() => {
-    getAllTask();
-  }, []);
+ 
   const contextValues = useContext(TaskProvider);
 
   if (!contextValues) {
-    // Handle the case where the context is not yet available, if needed.
     return null;
   }
-  const { getAllTask } = contextValues;
+  const { fetchedTasks } = contextValues;
 
   // Retrieve user data from local storage
   const storedUserData = JSON.parse(localStorage.getItem("Userinfo") || "null");
-
-  // Check if storedUserData is not null before accessing properties
   const firstName = storedUserData && storedUserData.firstName;
+  // Calculate total tasks and filter by status
+  const totalTasks = fetchedTasks.length;
+  const pendingTasks = fetchedTasks.filter((task) => task.status === "pending").length;
+  const inProgressTasks = fetchedTasks.filter((task) => task.status === "in progress").length;
+  const completedTasks = fetchedTasks.filter((task) => task.status === "completed").length;
 
   return (
     <main className="mx-auto max-w-[1640px] flex flex-col gap-8 p-3 h-screen bg-[#F5F5F9] overflow-y-scroll">
@@ -73,15 +53,30 @@ const Dashboard = () => {
             <img src={workmode} alt="" className="flex w-[170px] h-[170px]" />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-            {Taskdata.map((task, i) => (
-              <span
-                key={i}
-                className="p-4 rounded-sm flex flex-col items-center space-y-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
-              >
-                <h2 className="font-semibold">{task.taskLeft}</h2>
-                <p className="text-gray-400">{task.taskType}</p>
-              </span>
-            ))}
+            <span
+              className="p-4 rounded-sm flex flex-col items-center space-y-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+            >
+              <h2 className="font-semibold">{totalTasks}</h2>
+              <p className="text-gray-400">Total Tasks</p>
+            </span>
+            <span
+              className="p-4 rounded-sm flex flex-col items-center space-y-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+            >
+              <h2 className="font-semibold">{pendingTasks}</h2>
+              <p className="text-gray-400">Pending</p>
+            </span>
+            <span
+              className="p-4 rounded-sm flex flex-col items-center space-y-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+            >
+              <h2 className="font-semibold">{inProgressTasks}</h2>
+              <p className="text-gray-400">In Progress</p>
+            </span>
+            <span
+              className="p-4 rounded-sm flex flex-col items-center space-y-3 bg-white/75 shadow-[0_3px_10px_rgb(0,0,0,0.2)]"
+            >
+              <h2 className="font-semibold">{completedTasks}</h2>
+              <p className="text-gray-400">Completed</p>
+            </span>
           </div>
         </article>
         {/* Notification   */}
@@ -122,7 +117,7 @@ const Dashboard = () => {
       </div>
       {/* task part */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,370px] gap-4 ">
-        <TaskList />
+        <TaskList fetchedTasks = {fetchedTasks} />
         {/* calender */}
         <Calender />
       </div>

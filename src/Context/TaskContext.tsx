@@ -1,14 +1,14 @@
-import { createContext, useState } from "react"; // Import statements adjusted
+import { createContext, useEffect, useState } from "react"; // Import statements adjusted
 import { AppContextProviderComponent, UserTask } from "../Types/Types";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { BASE_URL, token } from "../utils/api";
 
 interface TaskContextValues {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   tasks: UserTask;
   HandleAddTask: (e: React.FormEvent) => void;
-  getAllTask: () => void;
-  AllTask: UserTask[];
+  fetchedTasks: UserTask[];
 }
 export const TaskProvider = createContext<TaskContextValues | null>(null);
 
@@ -21,7 +21,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
     comment: "",
   });
 
-  const [AllTask, setAllTask] = useState<UserTask[]>([]);
+  // const [AllTask, setAllTask] = useState<UserTask[]>([]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTasks({
@@ -33,9 +33,8 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
   const HandleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
     const myTask = tasks;
-    const token = JSON.parse(localStorage.getItem("token") || "null");
     axios
-      .post("https://task-manager-4qtw.onrender.com/api/tasks", myTask, {
+      .post(`${BASE_URL}/api/tasks`, myTask, {
         headers: {
           "Content-type": "application/json",
           authorization: `Bearer ${token}`,
@@ -59,10 +58,10 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         console.error("Error adding task:", error);
       });
   };
-  const getAllTask = () => {
-    const token = JSON.parse(localStorage.getItem("token") || "null");
+  const [fetchedTasks, setFetchedTasks] = useState<UserTask[]>([]);
+  useEffect(() => {
     axios
-      .get("https://task-manager-4qtw.onrender.com/api/tasks", {
+      .get(`${BASE_URL}/api/tasks`, {
         headers: {
           "Content-type": "application/json",
           authorization: `Bearer ${token}`,
@@ -70,22 +69,20 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          setAllTask(response.data.results);
+          setFetchedTasks(response.data.result);
+          console.log(response.data.result);
         }
       })
       .catch((error) => {
         // Handle error
         console.error(error);
       });
-      console.log(AllTask)
-  };
-
+  }, []);
   const contextValue: TaskContextValues = {
     handleInputChange,
     tasks,
     HandleAddTask,
-    getAllTask,
-    AllTask,
+    fetchedTasks,
   };
 
   return (

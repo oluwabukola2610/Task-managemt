@@ -3,6 +3,8 @@ import { useState } from "react";
 import { UserType } from "../Types/Types";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { BASE_URL } from "../utils/api";
+
 const useAuth = () => {
   const navigate = useNavigate();
 
@@ -39,7 +41,7 @@ const useAuth = () => {
     setIsLoading(true);
 
     axios
-      .post("https://task-manager-4qtw.onrender.com/auth/signup", user)
+      .post(`${BASE_URL}/auth/signup`, user)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Sign in successful");
@@ -72,14 +74,13 @@ const useAuth = () => {
     setIsLoading(true);
     const loginData = { email: user.email, password: user.password };
     axios
-      .post("https://task-manager-4qtw.onrender.com/auth/signin", loginData)
+      .post(`${BASE_URL}/auth/signin`, loginData)
       .then((response) => {
         if (response.status === 200) {
           toast.success(response.data.message);
-          const userData = response.data.user;
-          const token = response.data.token;
+          const userData = response.data.user
           localStorage.setItem("Userinfo", JSON.stringify(userData));
-          localStorage.setItem("token", JSON.stringify(token));
+          sessionStorage.setItem("token", response.data.token );
           setTimeout(() => {
             navigate("/dashboard");
           }, 2000);

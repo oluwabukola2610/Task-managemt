@@ -32,23 +32,23 @@ const AddTaskBar = () => {
               name="title" // Add name attribute to bind to the 'title' property
               value={tasks.title} // Bind the value to tasks.title
               onChange={handleInputChange} // Attach onChange event handler
-              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-700 text-sm w-full"
-              placeholder="Completed Charts & Maps"
+              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-400 text-sm w-full"
+              placeholder="Add task here..."
             />
           </div>
           <div className="relative">
             <label
-              htmlFor="comment"
+              htmlFor="des"
               className="absolute -top-2 left-2 bg-white px-1 text-xs text-gray-400"
             >
-              Comment
+              Description
             </label>
             <input
-              id="comment"
+              id="des"
               name="comment"
               value={tasks.comment}
               onChange={handleInputChange}
-              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-700 text-sm w-full"
+              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-400 text-sm w-full"
               placeholder="Write your comment here..."
             />
           </div>
@@ -65,7 +65,7 @@ const AddTaskBar = () => {
               name="startDate" // Add name attribute to bind to the 'title' property
               value={tasks.startDate} // Bind the value to tasks.title
               onChange={handleInputChange} // Attach onChange event handler
-              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-700 text-sm w-full"
+              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-500 text-sm w-full"
               placeholder="7 April, 2023"
             />
           </div>
@@ -82,7 +82,7 @@ const AddTaskBar = () => {
               name="label"
               value={tasks.label}
               onChange={handleInputChange}
-              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-700 text-sm w-full"
+              className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-400 text-sm w-full"
               placeholder="Charts and Map"
             />
           </div>

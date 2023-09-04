@@ -17,4 +17,6 @@ export interface UserTask {
   label: string; // Default label value
   attachment: null; // You can use FormData for file uploads
   comment: string;
+  status?: string
+
 }
