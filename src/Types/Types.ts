@@ -14,9 +14,10 @@ export interface UserType {
 export interface UserTask {
   title: string;
   startDate: string;
-  label: string; // Default label value
+  category: string; // Default label value
   attachment: null; // You can use FormData for file uploads
-  comment: string;
+  description: string;
   status?: string
+  _id?: string;
 
 }

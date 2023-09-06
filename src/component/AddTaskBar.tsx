@@ -45,8 +45,8 @@ const AddTaskBar = () => {
             </label>
             <input
               id="des"
-              name="comment"
-              value={tasks.comment}
+              name="description"
+              value={tasks.description}
               onChange={handleInputChange}
               className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-400 text-sm w-full"
               placeholder="Write your comment here..."
@@ -71,16 +71,16 @@ const AddTaskBar = () => {
           </div>
           <div className="relative">
             <label
-              htmlFor="label"
+              htmlFor="category"
               className="absolute -top-2 left-2 bg-white px-1 text-xs text-gray-400"
             >
-              Label
+              Category
             </label>
             <input
               type="text"
-              id="label"
-              name="label"
-              value={tasks.label}
+              id="category"
+              name="category"
+              value={tasks.category}
               onChange={handleInputChange}
               className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-400 text-sm w-full"
               placeholder="Charts and Map"

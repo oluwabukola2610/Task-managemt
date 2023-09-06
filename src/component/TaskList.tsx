@@ -1,48 +1,50 @@
+import React from "react";
 import { UserTask } from "../Types/Types";
-import Avatar from "../assets/Avatar.svg";
+
 interface TaskListProps {
   fetchedTasks: UserTask[]; // Use the UserTask type for fetchedTask
 }
 
 const TaskList: React.FC<TaskListProps> = ({ fetchedTasks }) => {
-  
-  if (!fetchedTasks) {
+  if (!fetchedTasks || fetchedTasks.length === 0) {
     return (
       <div className="flex flex-col space-y-2 p-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white/75">
         <h1 className="font-semibold py-2 text-gray-500">Today Task</h1>
-        {/* You can add a message or UI here to indicate that there are no tasks */}
         <p>No tasks available.</p>
       </div>
     );
   }
 
+  // Slice the fetchedTasks array to display only the first 4 tasks
+  const tasksToShow = fetchedTasks.slice(0, 4);
 
   return (
-    <div className="flex flex-col space-y-2 p-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white/75">
-      <h1 className="font-semibold py-2 text-gray-500">Today Task</h1>
-      {fetchedTasks.map((task, index) => (
-        <div key={index}>
-          <div className="flex items-center justify-between">
-            <span className="flex space-x-2 items-center">
-              <div className="h-2 w-2 bg-red-500 rounded-full"></div>
-              <p>{task.title}</p>{" "}
-            </span>
-            <p className="text-gray-400">{task.startDate}</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="border-r border-gray-300 h-full"></div>
-            <p className="text-gray-400">{task.comment}</p>
-            <div className="avatar">
-              <div className="w-10 rounded-full">
-                <img src={Avatar} alt="" />{" "}
-              </div>
-            </div>
-          </div>
+    <article className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {tasksToShow.map((task, index) => (
+        <div
+          key={index}
+          className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] h-fit"
+        >
+          {/* Render task details */}
+          <p
+            style={{
+              backgroundColor:
+                task.status === "pending"
+                  ? "#FF7F50" // Red for pending
+                  : task.status === "in progress"
+                  ? "#FFFF00" // Yellow for in progress
+                  : "#00FF00", // Green for completed
+            }}
+            className="w-fit p-2 rounded-full text-sm"
+          >
+            {task.category}
+          </p>
+          <p className="leading-6">{task.title}</p>
+          <p>{task.description}</p>
+          <p className="text-gray-500">Start Date: {task.startDate}</p>
         </div>
       ))}
-
-      {/* ... more divs */}
-    </div>
+    </article>
   );
 };
 

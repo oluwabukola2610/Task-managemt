@@ -9,16 +9,18 @@ interface TaskContextValues {
   tasks: UserTask;
   HandleAddTask: (e: React.FormEvent) => void;
   fetchedTasks: UserTask[];
+  deleteTask: (tasksId:string) => void;
 }
 export const TaskProvider = createContext<TaskContextValues | null>(null);
+
 
 const TaskContext: AppContextProviderComponent = ({ children }) => {
   const [tasks, setTasks] = useState<UserTask>({
     title: "",
     startDate: "",
-    label: "", // Default label value
+    category: "", // Default label value
     attachment: null, // You can use FormData for file uploads
-    comment: "",
+    description: "",
   });
 
   // const [AllTask, setAllTask] = useState<UserTask[]>([]);
@@ -43,15 +45,9 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           toast.success(response.data.message);
+          window.location.reload();
         }
-        // Handle success
-        setTasks({
-          title: "",
-          startDate: "",
-          label: "",
-          attachment: null,
-          comment: "",
-        });
+       
       })
       .catch((error) => {
         // Handle error
@@ -78,11 +74,39 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         console.error(error);
       });
   }, []);
+  const deleteTask = (tasksId:string) => {
+    console.log("Deleting task with ID:", tasksId);
+    axios
+      .delete(`${BASE_URL}/api/tasks/${tasksId}`, {
+        // Use the tasks.id as the task ID
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Task deleted successfully");
+          // Remove the deleted task from the fetchedTasks state
+          setFetchedTasks((prevTasks) =>
+            prevTasks.filter((task) => task._id !== tasksId)
+          );
+        }
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Error deleting task:", error);
+      });
+  };
+
+  // ...
+
   const contextValue: TaskContextValues = {
     handleInputChange,
     tasks,
     HandleAddTask,
     fetchedTasks,
+    deleteTask,
   };
 
   return (

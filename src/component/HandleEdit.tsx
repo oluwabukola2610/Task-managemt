@@ -1,6 +1,19 @@
+import { useContext } from "react";
 import Avatar from "../assets/Avatar.svg";
 import FemaleAvatar from "../assets/female-avatar.png";
+import { TaskProvider } from "../Context/TaskContext";
+import { BiSolidEditAlt } from "react-icons/bi";
+import { MdOutlineDeleteForever } from "react-icons/md";
 const HandleEdit = () => {
+  const contextValues = useContext(TaskProvider);
+
+  if (!contextValues) {
+    return null;
+  }
+  const { deleteTask} = contextValues;
+const handelete =()=>{
+  deleteTask()
+}
   return (
     <>
       <h2 className="text-md text-gray-500 font-semibold p-4 border-b border-b-slate-300 shadow-sm">
@@ -8,39 +21,14 @@ const HandleEdit = () => {
       </h2>
       <div className="flex space-x-4 px-4 py-3">
         <button className="btn h-5  hover:bg-black/60 bg-black/80 font-thin  text-sm text-gray-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-          >
-            <path
-              d="M5.8335 14.1814L9.511 14.1689L17.5377 6.21893C17.8527 5.90393 18.026 5.48559 18.026 5.04059C18.026 4.59559 17.8527 4.17726 17.5377 3.86226L16.216 2.54059C15.586 1.91059 14.4868 1.91393 13.8618 2.53809L5.8335 10.4898V14.1814ZM15.0377 3.71893L16.3618 5.03809L15.031 6.35643L13.7093 5.03559L15.0377 3.71893ZM7.50016 11.1848L12.5252 6.20726L13.8468 7.52893L8.82266 12.5048L7.50016 12.5089V11.1848Z"
-              fill="white"
-            />
-            <path
-              d="M4.16667 17.5039H15.8333C16.7525 17.5039 17.5 16.7564 17.5 15.8372V8.61391L15.8333 10.2806V15.8372H6.79833C6.77667 15.8372 6.75417 15.8456 6.7325 15.8456C6.705 15.8456 6.6775 15.8381 6.64917 15.8372H4.16667V4.17057H9.8725L11.5392 2.50391H4.16667C3.2475 2.50391 2.5 3.25141 2.5 4.17057V15.8372C2.5 16.7564 3.2475 17.5039 4.16667 17.5039Z"
-              fill="white"
-            />
-          </svg>
+          <BiSolidEditAlt />
           <span className="">Edit</span>
         </button>
-        <button className="btn h-5  font-thin  text-sm text-gray-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="21"
-            viewBox="0 0 20 21"
-            fill="none"
-          >
-            <path
-              opacity="0.7"
-              d="M4.1665 7.67059H6.6665V15.8373H4.1665V7.67059ZM8.83317 4.17059H11.1665V15.8373H8.83317V4.17059ZM13.4998 10.8373H15.8332V15.8373H13.4998V10.8373Z"
-              fill="#32475C"
-              fillOpacity="0.87"
-            />
-          </svg>
+        <button
+          onClick={handelete}
+          className="btn h-5  font-thin  text-sm text-gray-500"
+        >
+          <MdOutlineDeleteForever  />
           <span className="">Delete</span>
         </button>
       </div>
