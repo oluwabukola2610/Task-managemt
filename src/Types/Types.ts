@@ -15,9 +15,8 @@ export interface UserTask {
   title: string;
   startDate: string;
   category: string; // Default label value
-  attachment: null; // You can use FormData for file uploads
+  attachment?: null; // You can use FormData for file uploads
   description: string;
   status?: string
-  _id?: string;
-
+  _id: string;
 }

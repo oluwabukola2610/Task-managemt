@@ -1,11 +1,15 @@
 import { useContext, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiFillEdit } from "react-icons/ai";
 import { HiDotsVertical } from "react-icons/hi";
 import HandleEdit from "../component/HandleEdit";
 import { TaskProvider } from "../Context/TaskContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Task = () => {
   const [toggleEdit, setToggleEdit] = useState<boolean>(false);
+  const [selectedTaskId, setSelectedTaskId] = useState("");
   const contextValues = useContext(TaskProvider);
 
   if (!contextValues) {
@@ -25,6 +29,19 @@ const Task = () => {
 
   return (
     <main className="flex flex-col p-3 h-screen bg-[#F5F5F9] overflow-y-scroll">
+      <ToastContainer
+        position="top-center"
+        hideProgressBar={true}
+        newestOnTop={false}
+        autoClose={1000}
+        rtl={false}
+        draggable
+        style={{
+          top: "10%",
+          transform: "translateY(-50%)",
+          width: "fit-content",
+        }}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {statusValues.map((status, index) => (
           <article className="flex flex-col space-y-4" key={index}>
@@ -32,6 +49,7 @@ const Task = () => {
               <h1 className="leading-6 font-semibold">
                 {status} ({taskCounts[status]}){" "}
               </h1>
+              <HiDotsVertical />
             </header>
             {fetchedTasks
               .filter((task) =>
@@ -42,25 +60,29 @@ const Task = () => {
                   key={taskIndex}
                   className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] relative"
                 >
-                  <div
-                    className="flex justify-end absolute top-2 right-2"
-                    onClick={() => setToggleEdit(!toggleEdit)}
-                  >
-                    <HiDotsVertical />
+                  <div className="flex justify-between items-center">
+                    <p
+                      style={{
+                        backgroundColor:
+                          task.status === "pending"
+                            ? "#FF7F50" // Red for pending
+                            : task.status === "in progress"
+                            ? "#FFFF00" // Yellow for in progress
+                            : "#00FF00", // Green for completed
+                      }}
+                      className=" w-fit p-2 rounded-full text-sm text-gray-600 lowercase"
+                    >
+                      {task.category}
+                    </p>
+                    <div
+                      onClick={() => {
+                        setSelectedTaskId(task._id); // Set the selected task ID
+                        setToggleEdit(true);
+                      }}
+                    >
+                      <AiFillEdit />
+                    </div>
                   </div>
-                  <p
-                    style={{
-                      backgroundColor:
-                        task.status === "pending"
-                          ? "#FF7F50" // Red for pending
-                          : task.status === "in progress"
-                          ? "#FFFF00" // Yellow for in progress
-                          : "#00FF00", // Green for completed
-                    }}
-                    className=" w-fit p-2 rounded-full text-sm text-gray-600 lowercase"
-                  >
-                    {task.category}
-                  </p>
 
                   <p className="leading-6 font-semibold text-gray-800 capitalize ">
                     {task.title}
@@ -94,7 +116,7 @@ const Task = () => {
           size={20}
           className="absolute right-2 top-4"
         />
-        <HandleEdit />
+        <HandleEdit selectedTaskId={selectedTaskId} />
       </div>
     </main>
   );

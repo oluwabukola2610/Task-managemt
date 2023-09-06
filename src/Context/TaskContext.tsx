@@ -9,10 +9,11 @@ interface TaskContextValues {
   tasks: UserTask;
   HandleAddTask: (e: React.FormEvent) => void;
   fetchedTasks: UserTask[];
-  deleteTask: (tasksId:string) => void;
+  deleteTask: (tasksId: string) => void;
+  editTask: (taskId: string, updatedTask: UserTask) => void;
+  markTaskAsCompleted: (taskId: string) => void;
 }
 export const TaskProvider = createContext<TaskContextValues | null>(null);
-
 
 const TaskContext: AppContextProviderComponent = ({ children }) => {
   const [tasks, setTasks] = useState<UserTask>({
@@ -21,9 +22,9 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
     category: "", // Default label value
     attachment: null, // You can use FormData for file uploads
     description: "",
+    _id: "",
   });
 
-  // const [AllTask, setAllTask] = useState<UserTask[]>([]);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setTasks({
@@ -47,7 +48,6 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
           toast.success(response.data.message);
           window.location.reload();
         }
-       
       })
       .catch((error) => {
         // Handle error
@@ -74,7 +74,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         console.error(error);
       });
   }, []);
-  const deleteTask = (tasksId:string) => {
+  const deleteTask = (tasksId: string) => {
     console.log("Deleting task with ID:", tasksId);
     axios
       .delete(`${BASE_URL}/api/tasks/${tasksId}`, {
@@ -99,7 +99,58 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       });
   };
 
-  // ...
+  const editTask = (taskId: string, updatedTask: UserTask) => {
+    console.log('editTask', taskId, updatedTask)
+    axios
+      .patch(`${BASE_URL}/api/tasks/${taskId}`, updatedTask, {
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Task updated successfully");
+          // Update the task in the fetchedTasks state
+          setFetchedTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task._id === taskId ? { ...task, ...updatedTask } : task
+            )
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating task:", error);
+      });
+  };
+
+  const markTaskAsCompleted = (taskId: string) => {
+    const updatedStatus = "completed";
+    axios
+      .patch(`${BASE_URL}/api/tasks/${taskId}`, { status: updatedStatus }, {
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          // Update the status in the fetchedTasks state
+          setFetchedTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task._id === taskId ? { ...task, status: updatedStatus } : task
+            )
+          );
+        }
+        console.log(updatedStatus)
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the API request
+        console.error("Error marking task as completed:", error);
+      });
+  };
+  
+
 
   const contextValue: TaskContextValues = {
     handleInputChange,
@@ -107,6 +158,8 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
     HandleAddTask,
     fetchedTasks,
     deleteTask,
+    markTaskAsCompleted,
+    editTask,
   };
 
   return (
