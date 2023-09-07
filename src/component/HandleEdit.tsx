@@ -21,6 +21,7 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
     markTaskAsCompleted,
     editTask,
     fetchedTasks,
+    isloading,
   } = contextValues;
 
   const selectedTask = fetchedTasks.find((task) => task._id === selectedTaskId);
@@ -180,11 +181,27 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
                   <input id="dropzone-file" type="file" className="hidden" />
                 </label>
               </div>
-
-              <button className="btn btn-active bg-black text-white hover:bg-black/75 w-full ">
-                <BiSolidEditAlt />
-                <span className="">Edit</span>
-              </button>
+              {!isloading ? (
+                <button
+                  type="submit"
+                  className="btn btn-active bg-black text-white hover:bg-black/75 w-full"
+                  aria-label="Edit Task"
+                >
+                  {" "}
+                  <BiSolidEditAlt />
+                  Edit Tasks
+                </button>
+              ) : (
+                <button
+                  className="w-full my-2 btn bg-gray-800/75"
+                  disabled
+                  aria-busy="true"
+                  aria-label=" Editing... "
+                >
+                  <span className="loading loading-spinner"></span>
+                  Editing...
+                </button>
+              )}
             </form>
           </div>
         </>

@@ -10,7 +10,7 @@ const AddTaskBar = () => {
     return null;
   }
 
-  const { handleInputChange, tasks, HandleAddTask } = contextValues;
+  const { handleInputChange, tasks, HandleAddTask, isloading } = contextValues;
 
   return (
     <>
@@ -134,10 +134,25 @@ const AddTaskBar = () => {
               <input id="dropzone-file" type="file" className="hidden" />
             </label>
           </div>
-
-          <button className="btn btn-active bg-black text-white hover:bg-black/75 w-full ">
-            Add
-          </button>
+          {!isloading ? (
+            <button
+              type="submit"
+              className="btn btn-active bg-black text-white hover:bg-black/75 w-full"
+              aria-label="Add Task"
+            >
+              Add Tasks
+            </button>
+          ) : (
+            <button
+              className="w-full my-2 btn bg-gray-800/75"
+              disabled
+              aria-busy="true"
+              aria-label="Adding Task..."
+            >
+              <span className="loading loading-spinner"></span>
+              Adding Task...
+            </button>
+          )}
         </form>
       </div>
     </>

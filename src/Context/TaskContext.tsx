@@ -12,6 +12,7 @@ interface TaskContextValues {
   deleteTask: (tasksId: string) => void;
   editTask: (taskId: string, updatedTask: UserTask) => void;
   markTaskAsCompleted: (taskId: string) => void;
+  isloading: boolean;
 }
 export const TaskProvider = createContext<TaskContextValues | null>(null);
 
@@ -32,9 +33,10 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       [name]: value,
     });
   };
-
+  const [isloading, setIsloading] = useState(false);
   const HandleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsloading(true);
     const myTask = tasks;
     axios
       .post(`${BASE_URL}/api/tasks`, myTask, {
@@ -52,6 +54,9 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       .catch((error) => {
         // Handle error
         console.error("Error adding task:", error);
+      })
+      .finally(() => {
+        setIsloading(false); // Set isLoading back to false when the API request is complete
       });
   };
   const [fetchedTasks, setFetchedTasks] = useState<UserTask[]>([]);
@@ -66,7 +71,6 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           setFetchedTasks(response.data.result);
-          console.log(response.data.result);
         }
       })
       .catch((error) => {
@@ -76,6 +80,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
   }, []);
   const deleteTask = (tasksId: string) => {
     console.log("Deleting task with ID:", tasksId);
+    setIsloading(true);
     axios
       .delete(`${BASE_URL}/api/tasks/${tasksId}`, {
         // Use the tasks.id as the task ID
@@ -96,11 +101,15 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       .catch((error) => {
         // Handle error
         console.error("Error deleting task:", error);
+      })
+      .finally(() => {
+        setIsloading(false); // Set isLoading back to false when the API request is complete
       });
   };
 
   const editTask = (taskId: string, updatedTask: UserTask) => {
-    console.log('editTask', taskId, updatedTask)
+    setIsloading(true);
+    console.log("editTask", taskId, updatedTask);
     axios
       .patch(`${BASE_URL}/api/tasks/${taskId}`, updatedTask, {
         headers: {
@@ -110,7 +119,9 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 200) {
+          console.log(response)
           toast.success("Task updated successfully");
+const editedTask = response.data.result
           // Update the task in the fetchedTasks state
           setFetchedTasks((prevTasks) =>
             prevTasks.map((task) =>
@@ -121,18 +132,25 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       })
       .catch((error) => {
         console.error("Error updating task:", error);
+      })
+      .finally(() => {
+        setIsloading(false); // Set isLoading back to false when the API request is complete
       });
   };
 
   const markTaskAsCompleted = (taskId: string) => {
     const updatedStatus = "completed";
     axios
-      .patch(`${BASE_URL}/api/tasks/${taskId}`, { status: updatedStatus }, {
-        headers: {
-          "Content-type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .patch(
+        `${BASE_URL}/api/tasks/${taskId}`,
+        { status: updatedStatus },
+        {
+          headers: {
+            "Content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 200) {
           // Update the status in the fetchedTasks state
@@ -142,15 +160,13 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
             )
           );
         }
-        console.log(updatedStatus)
+        console.log(updatedStatus);
       })
       .catch((error) => {
         // Handle any errors that occur during the API request
         console.error("Error marking task as completed:", error);
       });
   };
-  
-
 
   const contextValue: TaskContextValues = {
     handleInputChange,
@@ -160,6 +176,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
     deleteTask,
     markTaskAsCompleted,
     editTask,
+    isloading,
   };
 
   return (
