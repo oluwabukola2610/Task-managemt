@@ -30,7 +30,7 @@ const TaskList: React.FC<TaskListProps> = ({ fetchedTasks }) => {
             style={{
               backgroundColor:
                 task.status === "pending"
-                  ? "#FF7F50" // Red for pending
+                  ? "#FFB6C1" // Red for pending
                   : task.status === "in progress"
                   ? "#FFFF00" // Yellow for in progress
                   : "#00FF00", // Green for completed

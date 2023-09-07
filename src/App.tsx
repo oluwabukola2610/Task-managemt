@@ -6,6 +6,7 @@ import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/Login";
 
 const App = () => {
+    
   return (
     <BrowserRouter>
       <Routes>
