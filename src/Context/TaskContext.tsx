@@ -59,6 +59,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         setIsloading(false); // Set isLoading back to false when the API request is complete
       });
   };
+
   const [fetchedTasks, setFetchedTasks] = useState<UserTask[]>([]);
   useEffect(() => {
     axios
@@ -71,6 +72,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           setFetchedTasks(response.data.result);
+          console.log(response.data.result)
         }
       })
       .catch((error) => {
@@ -78,6 +80,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         console.error(error);
       });
   }, []);
+
   const deleteTask = (tasksId: string) => {
     console.log("Deleting task with ID:", tasksId);
     setIsloading(true);
@@ -106,12 +109,11 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         setIsloading(false); // Set isLoading back to false when the API request is complete
       });
   };
-
   const editTask = (taskId: string, updatedTask: UserTask) => {
     setIsloading(true);
     console.log("editTask", taskId, updatedTask);
     axios
-      .patch(`${BASE_URL}/api/tasks/${taskId}`, updatedTask, {
+      .patch(`${BASE_URL}/api/tasks`, updatedTask, {
         headers: {
           "Content-type": "application/json",
           authorization: `Bearer ${token}`,
@@ -119,9 +121,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response)
           toast.success("Task updated successfully");
-const editedTask = response.data.result
           // Update the task in the fetchedTasks state
           setFetchedTasks((prevTasks) =>
             prevTasks.map((task) =>
@@ -134,15 +134,16 @@ const editedTask = response.data.result
         console.error("Error updating task:", error);
       })
       .finally(() => {
-        setIsloading(false); // Set isLoading back to false when the API request is complete
+        setIsloading(false);
       });
   };
+  
 
   const markTaskAsCompleted = (taskId: string) => {
     const updatedStatus = "completed";
     axios
       .patch(
-        `${BASE_URL}/api/tasks/${taskId}`,
+        `${BASE_URL}/api/tasks`,
         { status: updatedStatus },
         {
           headers: {

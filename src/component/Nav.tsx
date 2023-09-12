@@ -2,7 +2,7 @@ import { RiMenuFoldLine } from "react-icons/ri";
 const Nav = () => {
   return (
     <label htmlFor="my-drawer-2">
-      <nav className="flex justify-between items-center md:justify-between">
+      <nav className="flex justify-between items-center ">
         <div className="flex lg:hidden text-gray-800 ml-8">
           <RiMenuFoldLine size="25" />
         </div>
@@ -32,7 +32,7 @@ const Nav = () => {
           </div>
         </div>
         <div className="space-x-4 items-center flex">
-          <input type="checkbox" className="toggle toggle-sm"   />
+          <input type="checkbox" className="toggle toggle-sm" />
           <label className="swap swap-rotate">
             {/* this hidden checkbox controls the state */}
             <input type="checkbox" />

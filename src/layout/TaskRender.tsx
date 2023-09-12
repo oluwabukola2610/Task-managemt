@@ -1,28 +1,28 @@
 import { Outlet } from "react-router-dom";
 import Nav from "../component/Nav";
-import TaskAside from "../component/SideBar";
+import SideBar from "../component/SideBar";
 import Footer from "../component/Footer";
-import SideBar from "../component/AddTaskBar";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import AddTaskBar from "../component/AddTaskBar";
 
 const TaskRender = () => {
   const [toggleAddTask, settoggleAddTask] = useState<boolean>(false);
   // const [toggleFunds, setToggleFunds] = useState(false);
   const AddTask = () => {
     settoggleAddTask(!toggleAddTask);
-  }; 
+  };
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content ">
+      <div className="drawer-content">
         {/* Page content here */}
         <Nav />
         <Outlet />
         <Footer />
       </div>
       {/* Sidebar content here */}
-      <TaskAside AddTask={AddTask} />
+      <SideBar AddTask={AddTask} />
       {/* ADD TASK overlay */}
       {toggleAddTask && (
         <div
@@ -43,7 +43,7 @@ const TaskRender = () => {
           size={20}
           className="absolute right-2 top-4"
         />
-        <SideBar />
+        <AddTaskBar />
       </div>
     </div>
   );

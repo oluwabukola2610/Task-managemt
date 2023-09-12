@@ -31,6 +31,7 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
     e.preventDefault();
     if (!isTaskCompleted) {
       editTask(selectedTaskId, tasks);
+      console.log(tasks)
     }
   };
 

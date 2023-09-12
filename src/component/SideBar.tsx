@@ -1,11 +1,11 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 
-interface TaskAsideProps {
+interface SideBarProps {
   AddTask: () => void; // Define the prop type for AddTask
 }
 
-const TaskAside: React.FC<TaskAsideProps> = ({ AddTask }) => {
+const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
   const location = useLocation();
   // Retrieve user data from local storage
   const storedUserData = JSON.parse(localStorage.getItem("Userinfo") || "null");
@@ -203,4 +203,4 @@ const TaskAside: React.FC<TaskAsideProps> = ({ AddTask }) => {
   );
 };
 
-export default TaskAside;
+export default SideBar;
