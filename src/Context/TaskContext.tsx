@@ -72,7 +72,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       .then((response) => {
         if (response.status === 200) {
           setFetchedTasks(response.data.result);
-          console.log(response.data.result)
+          console.log(response.data.result);
         }
       })
       .catch((error) => {
@@ -110,10 +110,16 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       });
   };
   const editTask = (taskId: string, updatedTask: UserTask) => {
+    const obj = {
+      title: updatedTask.title,
+      startDate: updatedTask.startDate,
+      category: updatedTask.category,
+      description: updatedTask.description,
+    };
     setIsloading(true);
-    console.log("editTask", taskId, updatedTask);
+    console.log("editTask", taskId, obj);
     axios
-      .patch(`${BASE_URL}/api/tasks`, updatedTask, {
+      .patch(`${BASE_URL}/api/tasks/${taskId}`, obj, {
         headers: {
           "Content-type": "application/json",
           authorization: `Bearer ${token}`,
@@ -137,13 +143,12 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         setIsloading(false);
       });
   };
-  
 
   const markTaskAsCompleted = (taskId: string) => {
     const updatedStatus = "completed";
     axios
       .patch(
-        `${BASE_URL}/api/tasks`,
+        `${BASE_URL}/api/tasks/${taskId}`,
         { status: updatedStatus },
         {
           headers: {
