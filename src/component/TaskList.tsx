@@ -1,11 +1,13 @@
 import React from "react";
 import { UserTask } from "../Types/Types";
+import { useNavigate } from "react-router-dom";
 
 interface TaskListProps {
   fetchedTasks: UserTask[]; // Use the UserTask type for fetchedTask
 }
 
 const TaskList: React.FC<TaskListProps> = ({ fetchedTasks }) => {
+  const navigate = useNavigate()
   if (!fetchedTasks || fetchedTasks.length === 0) {
     return (
       <div className="flex flex-col space-y-2 p-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white/75">
@@ -23,6 +25,7 @@ const TaskList: React.FC<TaskListProps> = ({ fetchedTasks }) => {
       {tasksToShow.map((task, index) => (
         <div
           key={index}
+          onClick={()=>navigate('/task')}
           className="bg-white shadow-[0_3px_10px_rgb(0,0,0,0.2)] p-4 rounded-md space-y-2 text-[#32475C99] h-fit"
         >
           {/* Render task details */}
