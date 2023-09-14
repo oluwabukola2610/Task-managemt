@@ -5,6 +5,7 @@ import { TaskProvider } from "../Context/TaskContext";
 import { BsCheckAll } from "react-icons/bs";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { toast } from "react-toastify";
 interface HandleEditProps {
   selectedTaskId: string;
 }
@@ -29,9 +30,18 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
 
   const handleeditTask = (e: React.FormEvent) => {
     e.preventDefault();
+    // Validation checks for required fields (e.g., title, description)
+    if (
+      !tasks.title ||
+      !tasks.description ||
+      !tasks.startDate ||
+      !tasks.category
+    ) {
+      toast.warn("Please fill in all required fields."); // Exit the function without submitting
+    }
     if (!isTaskCompleted) {
       editTask(selectedTaskId, tasks);
-      console.log(tasks)
+      console.log(tasks);
     }
   };
 
