@@ -1,6 +1,4 @@
 import { useContext } from "react";
-import Avatar from "../assets/Avatar.svg";
-import FemaleAvatar from "../assets/female-avatar.png";
 import { TaskProvider } from "../Context/TaskContext";
 import { BsCheckAll } from "react-icons/bs";
 import { BiSolidEditAlt } from "react-icons/bi";
@@ -76,7 +74,7 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
             </button>
           </div>
           <div className="flex flex-col  p-4">
-            <form onSubmit={handleeditTask} className="space-y-3">
+            <form onSubmit={handleeditTask} className="space-y-7">
               <div className="relative">
                 <label
                   htmlFor="title"
@@ -120,11 +118,11 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
                 <input
                   type="date"
                   id="Startdate"
-                  name="startDate" // Add name attribute to bind to the 'title' property
-                  value={tasks.startDate} // Bind the value to tasks.title
-                  onChange={handleInputChange} // Attach onChange event handler
+                  name="startDate"
+                  value={tasks.startDate}
+                  onChange={handleInputChange}
+                  min={new Date().toISOString().split("T")[0]} // Set min to today's date
                   className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-500 text-sm w-full"
-                  placeholder="7 April, 2023"
                 />
               </div>
               <div className="relative">
@@ -143,54 +141,6 @@ const HandleEdit: React.FC<HandleEditProps> = ({ selectedTaskId }) => {
                   className="border border-gray-200 rounded-md shadow-sm focus:ring-blue-600 focus:border-blue-600 focus:outline-none p-2 placeholder-gray-400 text-sm w-full"
                   placeholder="Charts and Map"
                 />
-              </div>
-              <div className="avatar-group -space-x-6">
-                <div className="avatar">
-                  <div className="w-10">
-                    <img src={FemaleAvatar} alt="" />
-                  </div>
-                </div>
-                <div className="avatar">
-                  <div className="w-8">
-                    <img src={Avatar} className="" alt="" />
-                  </div>
-                </div>
-                <div className="avatar">
-                  <div className="w-10">
-                    <img src={Avatar} className="" alt="" />
-                  </div>
-                </div>
-                <div className="avatar">
-                  <div className="w-8 text-gray-600 text-center text-xl bg-gray-300">
-                    +{" "}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="file" className="block text-sm text-gray-400 ">
-                  Attachment
-                </label>
-
-                <label
-                  htmlFor="dropzone-file"
-                  className="flex flex-col items-center w-full max-w-lg p-5 mx-auto mt-2 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer rounded-xl"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-8 h-8 text-gray-500 dark:text-gray-400"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
-                    />
-                  </svg>
-                  <input id="dropzone-file" type="file" className="hidden" />
-                </label>
               </div>
               {!isloading ? (
                 <button

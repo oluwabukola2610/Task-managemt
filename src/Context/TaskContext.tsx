@@ -13,15 +13,21 @@ interface TaskContextValues {
   editTask: (taskId: string, updatedTask: UserTask) => void;
   markTaskAsCompleted: (taskId: string) => void;
   isloading: boolean;
+  generateNotifications: () => Notification[];
 }
+interface Notification {
+  text: string;
+  date: string;
+}
+
 export const TaskProvider = createContext<TaskContextValues | null>(null);
 
 const TaskContext: AppContextProviderComponent = ({ children }) => {
   const [tasks, setTasks] = useState<UserTask>({
     title: "",
     startDate: "",
-    category: "", // Default label value
-    attachment: null, // You can use FormData for file uploads
+    category: "",
+    attachment: null,
     description: "",
     _id: "",
   });
@@ -174,6 +180,40 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
       });
   };
 
+  // Function to generate notifications based on fetched tasks
+
+  const generateNotifications = (): Notification[] => {
+    const notifications = [];
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    // Check for pending tasks
+
+    const pendingTasks = fetchedTasks.filter(
+      (task) => task.status === "pending"
+    );
+    if (pendingTasks.length > 0) {
+      notifications.push({
+        text: `You have ${pendingTasks.length} pending task(s).`,
+        date: "Today",
+      });
+    }
+
+    // Check for tasks starting today
+    const tasksStartingToday = fetchedTasks.filter(
+      (task) => task.startDate === today
+    );
+    if (tasksStartingToday.length > 0) {
+      notifications.push({
+        text: `You have ${tasksStartingToday.length} task(s) starting today.`,
+        date: "Today",
+      });
+    }
+    return notifications;
+  };
+
+  generateNotifications();
+
   const contextValue: TaskContextValues = {
     handleInputChange,
     tasks,
@@ -183,6 +223,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
     markTaskAsCompleted,
     editTask,
     isloading,
+    generateNotifications,
   };
 
   return (

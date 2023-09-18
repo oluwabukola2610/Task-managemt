@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { TaskProvider } from "../Context/TaskContext";
 
 interface SideBarProps {
   AddTask: () => void; // Define the prop type for AddTask
@@ -7,27 +9,44 @@ interface SideBarProps {
 
 const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
   const location = useLocation();
+  const contextValues = useContext(TaskProvider);
+
+  if (!contextValues) {
+    return null;
+  }
+  const { generateNotifications } = contextValues;
+  const notification = generateNotifications();
+
   // Retrieve user data from local storage
   const storedUserData = JSON.parse(localStorage.getItem("Userinfo") || "null");
 
-  // Check if storedUserData is not null before accessing properties
- const { email, firstName, lastName } = storedUserData || {};
+  const { email, firstName, lastName } = storedUserData || {};
   const handleLogout = () => {
     localStorage.removeItem("Userinfo");
   };
+
   return (
     <div className="drawer-side bg-transparent">
       <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-      <aside className="flex flex-col w-[14rem] h-screen p-4 overflow-hidden bg-white border-r-2 border-r-gray-300  shadow-xl">
-        <div className="flex flex-col justify-between flex-1 mt-2">
-          <nav className="flex-1  space-y-4 ">
-            <div className=" justify-between items-center px-3 py-2 hidden lg:flex">
-              <span className="w-2 h-2 rounded-full bg-black"></span>
-              <p>Arrange</p>
-              <div className="border-[1.5px] border-gray-300 p-2 rounded-md">
-                <div className="w-2 h-1 border-b-2 border-gray-400"></div>
-              </div>
+      <aside className="flex flex-col w-[14rem] h-screen  overflow-hidden bg-white border-r-2 border-r-gray-300  shadow-xl">
+        <div className="flex flex-col items-center justify-center space-y-2 mt-4 p-3">
+          <div className="avatar online">
+            <div className="w-20 rounded-full">
+              <img
+                src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&h=634&q=80"
+                alt="avatar"
+              />
             </div>
+          </div>
+          <span className="flex text-sm font-medium text-gray-700  flex-col items-start">
+            <p className="font-semibold  font-serif capitalize">
+              {firstName} {lastName}{" "}
+            </p>
+            <p>{email}</p>
+          </span>
+        </div>
+        <div className="flex flex-col justify-between flex-1 mt-6 p-4">
+          <nav className="flex-1  space-y-4 ">
             <Link
               to="/dashboard"
               className={`flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg   ${
@@ -78,31 +97,13 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
               <span className="flex mx-4 font-medium">Tasks</span>
             </Link>
 
-            <a
-              className="flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg "
-              href="#"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-5 h-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"
-                />
-              </svg>
-
-              <span className="flex mx-4 font-medium">Projects</span>
-            </a>
-
-            <a
-              className="flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg "
-              href="#"
+            <Link
+              to="/notification"
+              className={`flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg   ${
+                location.pathname === "/notification"
+                  ? "bg-gray-100 text-gray-800"
+                  : ""
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,13 +124,20 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
                   d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
                 />
               </svg>
+              {notification.length > 0 && ( // Only display the count if it's greater than 0
+                <div className="bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-xs absolute -right-2 top-0">
+                  {notification.length}
+                </div>
+              )}
 
-              <span className="flex mx-4 font-medium">Upcoming</span>
-            </a>
+              <span className="flex mx-4 font-medium">Notifications</span>
+            </Link>
 
-            <a
-              className="flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg "
-              href="#"
+            <Link
+              to="/user"
+              className={`flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg   ${
+                location.pathname === "/user" ? "bg-gray-100 text-gray-800" : ""
+              }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,10 +154,11 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
                 />
               </svg>
 
-              <span className="flex mx-4 font-medium">Users</span>
-            </a>
+              <span className="flex mx-4 font-medium">Profile</span>
+            </Link>
 
-            <Link to='/'
+            <Link
+              to="/"
               onClick={handleLogout}
               className="flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg "
             >
@@ -180,7 +189,7 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
               <AiOutlinePlus />
               <span className=""> Add New Task</span>
             </button>
-            <div className="flex items-center justify-center space-x-3">
+            {/* <div className="flex items-center justify-center space-x-3">
               <div className="avatar online">
                 <div className="w-10 rounded-full">
                   <img
@@ -195,7 +204,7 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
                 </p>
                 <p>{email}</p>
               </span>
-            </div>
+            </div> */}
           </div>
         </div>
       </aside>

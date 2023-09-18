@@ -4,6 +4,8 @@ import Task from "./pages/Task";
 import TaskRender from "./layout/TaskRender";
 import Signup from "./pages/Auth/Signup";
 import Login from "./pages/Auth/Login";
+import Notification from "./pages/Notification";
+import User from "./pages/User";
 
 const App = () => {
     
@@ -19,6 +21,9 @@ const App = () => {
           <Route path="/dashbord" element={<Dashboard />} />
           <Route path="/task" element={<Task />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/user" element={<User />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

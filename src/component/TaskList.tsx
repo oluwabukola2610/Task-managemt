@@ -18,10 +18,10 @@ const TaskList: React.FC<TaskListProps> = ({ fetchedTasks }) => {
   }
 
   // Slice the fetchedTasks array to display only the first 4 tasks
-  const tasksToShow = fetchedTasks.slice(0, 4);
+  const tasksToShow = fetchedTasks.slice(0, 3);
 
   return (
-    <article className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <article className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {tasksToShow.map((task, index) => (
         <div
           key={index}

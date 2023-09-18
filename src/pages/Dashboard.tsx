@@ -5,7 +5,6 @@ import TaskList from "../component/TaskList";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TaskProvider } from "../Context/TaskContext";
-import Notification from "../component/Notification";
 
 const Dashboard = () => {
   const contextValues = useContext(TaskProvider);
@@ -29,9 +28,6 @@ const Dashboard = () => {
   const completedTasks = fetchedTasks.filter(
     (task) => task.status === "completed"
   ).length;
-
- 
-
 
   return (
     <main className="mx-auto max-w-[1640px] flex flex-col gap-8 p-3 h-screen bg-[#F5F5F9] overflow-y-scroll">
@@ -79,14 +75,11 @@ const Dashboard = () => {
           </div>
         </article>
         {/* Notification   */}
-        <Notification fetchedTasks={fetchedTasks} />
-      </div>
-      {/* task part */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr,370px] gap-4 ">
-        <TaskList fetchedTasks={fetchedTasks} />
-        {/* calender */}
         <Calender />
       </div>
+      {/* task part */}
+        <TaskList fetchedTasks={fetchedTasks} />
+        {/* calender */}
     </main>
   );
 };
