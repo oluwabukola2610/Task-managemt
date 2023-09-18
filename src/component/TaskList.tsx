@@ -10,7 +10,7 @@ const TaskList: React.FC<TaskListProps> = ({ fetchedTasks }) => {
   const navigate = useNavigate()
   if (!fetchedTasks || fetchedTasks.length === 0) {
     return (
-      <div className="flex flex-col space-y-2 p-3 shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-white/75">
+      <div className=" space-y-3">
         <h1 className="font-semibold py-2 text-gray-500">Today Task</h1>
         <p>No tasks available.</p>
       </div>

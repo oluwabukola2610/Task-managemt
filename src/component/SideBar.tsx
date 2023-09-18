@@ -158,7 +158,7 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
             </Link>
 
             <Link
-              to="/"
+              to="/login"
               onClick={handleLogout}
               className="flex items-center px-3 py-2 text-gray-500 transition-colors duration-300 transform rounded-lg "
             >
