@@ -14,6 +14,7 @@ interface TaskContextValues {
   markTaskAsCompleted: (taskId: string) => void;
   isloading: boolean;
   generateNotifications: () => Notification[];
+  // EditProfile: () => void;
 }
 interface Notification {
   text: string;
@@ -143,7 +144,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
         }
       })
       .catch((error) => {
-        console.error("Error updating task:", error);
+        console.error( error);
       })
       .finally(() => {
         setIsloading(false);
@@ -213,6 +214,29 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
   };
 
   generateNotifications();
+  // edit ptofile
+  // const EditProfile = () => {
+  //   axios
+  //     .patch(`${BASE_URL}/api/profile`, {
+  //       headers: {
+  //         "Content-type": "application/json",
+  //         authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+
+  //       if (response.status === 200) {
+  //         console.log(response);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error( error);
+  //     })
+  //     .finally(() => {
+  //       setIsloading(false);
+  //     });
+  // };
 
   const contextValue: TaskContextValues = {
     handleInputChange,
@@ -224,6 +248,7 @@ const TaskContext: AppContextProviderComponent = ({ children }) => {
     editTask,
     isloading,
     generateNotifications,
+    // EditProfile,
   };
 
   return (

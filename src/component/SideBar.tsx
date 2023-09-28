@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { TaskProvider } from "../Context/TaskContext";
+import Avatar from "react-avatar";
 
 interface SideBarProps {
   AddTask: () => void; // Define the prop type for AddTask
@@ -31,12 +32,12 @@ const SideBar: React.FC<SideBarProps> = ({ AddTask }) => {
       <aside className="flex flex-col w-[14rem] h-screen  overflow-hidden bg-white border-r-2 border-r-gray-300  shadow-xl">
         <div className="flex flex-col items-center justify-center space-y-2 mt-4 p-3">
           <div className="avatar online">
-            <div className="w-20 rounded-full">
-              <img
-                src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&h=634&q=80"
-                alt="avatar"
+              <Avatar
+                name={`${firstName} ${lastName}`}
+                src=""
+                size="100"
+                round={true}
               />
-            </div>
           </div>
           <span className="flex text-sm font-medium text-gray-700  flex-col items-start">
             <p className="font-semibold  font-serif capitalize">

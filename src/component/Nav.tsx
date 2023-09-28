@@ -1,10 +1,10 @@
 import { RiMenuFoldLine } from "react-icons/ri";
 const Nav = () => {
   return (
-    <nav className="flex justify-end items-center ">
+    <nav className="flex justify-between items-center ">
       <label
         htmlFor="my-drawer-2"
-        className="flex lg:hidden text-gray-800 ml-8"
+        className="flex lg:invisible text-gray-800 ml-8"
       >
         <RiMenuFoldLine size="25" />
       </label>
