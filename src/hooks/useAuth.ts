@@ -33,23 +33,21 @@ const useAuth = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
   const handleRegister = (event: React.FormEvent) => {
     event.preventDefault();
-    // Validate form fields
     if (!user.firstName || !user.lastName || !user.email || !user.password) {
       toast.error("Please fill in all fields");
       return;
     }
     setIsLoading(true);
-
     axios
       .post(`${BASE_URL}/auth/signup`, user)
       .then((response) => {
+        console.log(response);
         if (response.status === 200) {
           toast.success("Sign in successful");
           setTimeout(() => {
             navigate("/login");
           }, 2000);
         }
-        // setuser to empty string
       })
       .catch((error) => {
         if (error.response && error.response.status === 400) {
@@ -78,9 +76,9 @@ const useAuth = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success(response.data.message);
-          const userData = response.data.user
+          const userData = response.data.user;
           localStorage.setItem("Userinfo", JSON.stringify(userData));
-          sessionStorage.setItem("token", response.data.token );
+          sessionStorage.setItem("token", response.data.token);
           setTimeout(() => {
             navigate("/dashboard");
           }, 2000);
